@@ -62,13 +62,9 @@ app.get('/download', (req, res) => {
         }
 
         // Delete the file after download to keep the server clean
-        fs.unlink(filePath, (unlinkErr) => {
-            if (unlinkErr) {
-                console.error('Error deleting the file:', unlinkErr);
-            }
-        });
+        fs.unlink(filePath);
+     });
     });
-});
 
 // Root route
 app.get('/', (req, res) => {
