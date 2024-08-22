@@ -1,5 +1,4 @@
-
-import happyPeople from "../../../public/Images/happyPeople.jpg"
+import happyPeople from "../../../public/Images/happyPeople.jpg";
 import React, { useState } from 'react';
 
 const LandingPage = () => {
@@ -28,16 +27,23 @@ const LandingPage = () => {
       return;
     }
 
-    try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/submit`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
-          });
+    // Ensure REACT_APP_API_URL is available
+    const apiUrl = process.env.REACT_APP_API_URL;
 
-          
+    if (!apiUrl) {
+      console.error("API URL is not defined in environment variables.");
+      alert("Server configuration error. Please try again later.");
+      return;
+    }
+
+    try {
+      const response = await fetch(`${apiUrl}/submit`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
 
       if (response.ok) {
         alert("Your submission was successful!");
