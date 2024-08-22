@@ -36,6 +36,7 @@ const LandingPage = () => {
             },
             body: JSON.stringify(formData),
           });
+
           
 
       if (response.ok) {

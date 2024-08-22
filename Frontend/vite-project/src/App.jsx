@@ -1,7 +1,7 @@
 // src/App.jsx
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LandingPage from './components/LandingPage/LandingPage';
-import AdminPanel from './components/AdminPanel/AdminPanel';
+import AdminPanel from './components/AdminPanel.jsx/AdminPanel';
 
 function App() {
   return (

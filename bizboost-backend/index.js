@@ -9,7 +9,10 @@ const { v4: uuidv4 } = require('uuid');
 const app = express();
 const PORT = process.env.PORT || 5001;
 
-app.use(cors());
+app.use(cors({
+    origin: 'https://bizboost-client.vercel.app/', 
+}));
+
 app.use(bodyParser.json());
 
 // Serve static files (if you have any frontend files in a 'public' directory)
