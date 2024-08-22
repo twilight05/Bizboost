@@ -9,7 +9,11 @@ const { v4: uuidv4 } = require('uuid');
 const app = express();
 const PORT = process.env.PORT || 5001;
 
-app.use(cors());
+// Adjusted CORS configuration
+app.use(cors({
+    origin: 'https://bizboost-client.vercel.app',
+}));
+
 app.use(bodyParser.json());
 
 // Serve static files (if you have any frontend files in a 'public' directory)
@@ -22,7 +26,7 @@ let submissions = [];
 function validateSubmission(req, res, next) {
     const { name, email, company } = req.body;
 
-    if (!name || !email || !company) {
+    if (!name, !email, !company) {
         return res.status(400).send('Name, Email, and Company are required fields.');
     }
 
@@ -62,13 +66,15 @@ app.get('/download', (req, res) => {
         }
 
         // Delete the file after download to keep the server clean
-        fs.unlink(filePath);
-     });
+        fs.unlink(filePath, (unlinkErr) => {
+            if (unlinkErr) console.error('Error deleting the file:', unlinkErr);
+        });
     });
+});
 
 // Root route
 app.get('/', (req, res) => {
-    res.send('Welcome to  Bizboost');
+    res.send('Welcome to Bizboost');
 });
 
 // Handle undefined routes
@@ -78,5 +84,5 @@ app.get('*', (req, res) => {
 
 // Start the server
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Server is running and accessible from https://bizboost-client.vercel.app`);
 });
