@@ -30,7 +30,7 @@ const LandingPage = () => {
 
     try {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/submit`, {
-            method: 'POST',
+            method: 'GET',
             headers: {
               'Content-Type': 'application/json',
             },
