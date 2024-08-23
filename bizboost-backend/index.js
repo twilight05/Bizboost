@@ -82,5 +82,12 @@ app.get('*', (req, res) => {
 
 // Start the server
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Server is running and accessible.`);
+
+    if (process.env.NODE_ENV === 'production') {
+        console.log(`Frontend can be accessed at https://bizboost-client.vercel.app`);
+    } else {
+        console.log(`Backend is accessible on http://localhost:${PORT}`);
+    }
 });
+

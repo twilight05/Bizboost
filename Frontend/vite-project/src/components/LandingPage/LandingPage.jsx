@@ -27,17 +27,8 @@ const LandingPage = () => {
       return;
     }
 
-    // Ensure REACT_APP_API_URL is available
-    const apiUrl = process.env.REACT_APP_API_URL;
-
-    if (!apiUrl) {
-      console.error("API URL is not defined in environment variables.");
-      alert("Server configuration error. Please try again later.");
-      return;
-    }
-
     try {
-      const response = await fetch(`${apiUrl}/submit`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/submit`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -56,7 +47,6 @@ const LandingPage = () => {
       alert("There was an issue with your submission, please try again.");
     }
   };
-
   return (
     <div className="bg-white text-gray-800">
       {/* Header Section */}
