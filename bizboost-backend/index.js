@@ -1,4 +1,3 @@
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -10,6 +9,7 @@ const { v4: uuidv4 } = require('uuid');
 const app = express();
 const PORT = process.env.PORT || 5001;
 
+// Enable CORS for your frontend URL
 app.use(cors({
   origin: 'https://bizboost-client.vercel.app', 
 }));
@@ -51,32 +51,42 @@ app.post('/submit', validateSubmission, (req, res) => {
 
 // Endpoint to download the Excel file
 app.get('/download', (req, res) => {
-    const ws = XLSX.utils.json_to_sheet(submissions);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Submissions');
+    try {
+        const ws = XLSX.utils.json_to_sheet(submissions);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Submissions');
 
-    const uniqueFilename = `submissions_${uuidv4()}.xlsx`; // Generate a unique filename
-    const filePath = path.join(__dirname, uniqueFilename);
-    XLSX.writeFile(wb, filePath);
+        const uniqueFilename = `submissions_${uuidv4()}.xlsx`; // Generate a unique filename
+        const filePath = path.join(__dirname, uniqueFilename);
+        XLSX.writeFile(wb, filePath);
 
-    res.download(filePath, uniqueFilename, (err) => {
-        if (err) {
-            console.error('Error downloading the file:', err);
-            return res.status(500).send('Error downloading the file');
+        // Check if file was created successfully
+        if (!fs.existsSync(filePath)) {
+            return res.status(404).send('File not found');
         }
 
-        // Delete the file after download to keep the server clean
-        fs.unlink(filePath, (unlinkErr) => {
-            if (unlinkErr) {
-                console.error('Error deleting the file:', unlinkErr);
+        res.download(filePath, uniqueFilename, (err) => {
+            if (err) {
+                console.error('Error sending file:', err);
+                return res.status(500).send('Error sending file');
             }
+
+            // Delete the file after download to keep the server clean
+            fs.unlink(filePath, (unlinkErr) => {
+                if (unlinkErr) {
+                    console.error('Error deleting the file:', unlinkErr);
+                }
+            });
         });
-    });
+    } catch (error) {
+        console.error('Error in /download route:', error);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 // Root route
 app.get('/', (req, res) => {
-    res.send('Welcome to  Bizboost');
+    res.send('Welcome to Bizboost');
 });
 
 // Handle undefined routes
