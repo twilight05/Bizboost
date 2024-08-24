@@ -1,7 +1,7 @@
-// src/App.jsx
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import LandingPage from './components/LandingPage/LandingPage';
-import AdminPanel from './components/AdminPanel.jsx/AdminPanel';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import LandingPage from './LandingPage';
+import AdminPanel from './AdminPanel';
 
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
         <Route path="/adminpanel" element={<AdminPanel />} />
 
         {/* Redirect all other routes to the Landing Page */}
-        <Route path="*" element={<LandingPage />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
   );
