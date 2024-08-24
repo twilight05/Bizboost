@@ -1,4 +1,4 @@
-import happyPeople from "../../../public/Images/happyPeople.jpg";
+import happyPeople from "../../../public/Images/happyPeople.jpg"
 import React, { useState } from 'react';
 
 const LandingPage = () => {
@@ -28,7 +28,7 @@ const LandingPage = () => {
     }
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/submit`, {
+      const response = await fetch('http://localhost:5001/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -47,6 +47,7 @@ const LandingPage = () => {
       alert("There was an issue with your submission, please try again.");
     }
   };
+
   return (
     <div className="bg-white text-gray-800">
       {/* Header Section */}

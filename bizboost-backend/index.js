@@ -9,10 +9,7 @@ const { v4: uuidv4 } = require('uuid');
 const app = express();
 const PORT = process.env.PORT || 5001;
 
-app.use(cors({
-    origin: 'https://bizboost-client.vercel.app/', 
-}));
-
+app.use(cors());
 app.use(bodyParser.json());
 
 // Serve static files (if you have any frontend files in a 'public' directory)
@@ -65,10 +62,13 @@ app.get('/download', (req, res) => {
         }
 
         // Delete the file after download to keep the server clean
-        fs.unlink(filePath);
-     });
+        fs.unlink(filePath, (unlinkErr) => {
+            if (unlinkErr) {
+                console.error('Error deleting the file:', unlinkErr);
+            }
+        });
     });
-
+});
 
 // Root route
 app.get('/', (req, res) => {
@@ -82,12 +82,5 @@ app.get('*', (req, res) => {
 
 // Start the server
 app.listen(PORT, () => {
-    console.log(`Server is running and accessible.`);
-
-    if (process.env.NODE_ENV === 'production') {
-        console.log(`Frontend can be accessed at https://bizboost-client.vercel.app`);
-    } else {
-        console.log(`Backend is accessible on http://localhost:${PORT}`);
-    }
+    console.log(`Server is running on http://localhost:${PORT}`);
 });
-
