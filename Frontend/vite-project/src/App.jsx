@@ -7,14 +7,9 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Route for Landing Page */}
         <Route path="/" element={<LandingPage />} />
-
-        {/* Route for Admin Panel */}
         <Route path="/adminpanel" element={<AdminPanel />} />
-
-        {/* Redirect all other routes to the Landing Page */}
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route path="*" element={<LandingPage />} />
       </Routes>
     </Router>
   );
