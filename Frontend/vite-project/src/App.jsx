@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import LandingPage from './LandingPage';
-import AdminPanel from './AdminPanel';
+import LandingPage from './components/LandingPage/LandingPage';
+import AdminPanel from './components/AdminPanel/AdminPanel';
 
 function App() {
   return (
