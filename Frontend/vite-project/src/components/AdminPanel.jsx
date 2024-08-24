@@ -1,16 +1,10 @@
 import React from 'react';
 
 const AdminPanel = () => {
-  const apiUrl = import.meta.env.VITE_API_URL;
-
-  if (!apiUrl) {
-    console.error("API URL is not defined in environment variables.");
-    return <div>Error: API URL is not configured.</div>;
-  }
 
   const handleDownload = async () => {
     try {
-      const response = await fetch(`${apiUrl}/download`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/download`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

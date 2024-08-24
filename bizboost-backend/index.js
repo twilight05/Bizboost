@@ -11,8 +11,11 @@ const PORT = process.env.PORT || 5001;
 
 // Enable CORS for your frontend URL
 app.use(cors({
-  origin: 'https://bizboost-client.vercel.app', 
-}));
+    origin: 'https://bizboost-client.vercel.app',  // Replace with your frontend URL
+    methods: 'GET,POST',  // Specify allowed methods
+    allowedHeaders: 'Content-Type',  // Specify allowed headers
+    
+  }));
 
 app.use(bodyParser.json());
 
