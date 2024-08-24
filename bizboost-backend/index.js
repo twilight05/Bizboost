@@ -6,6 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 
+
 const app = express();
 const PORT = process.env.PORT || 5001;
 
@@ -53,39 +54,31 @@ app.post('/submit', validateSubmission, (req, res) => {
 });
 
 // Endpoint to download the Excel file
+
 app.get('/download', (req, res) => {
     try {
         const ws = XLSX.utils.json_to_sheet(submissions);
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Submissions');
 
+        // Generate the Excel file in memory
+        const buffer = XLSX.write(wb, { bookType: 'xlsx', type: 'buffer' });
+
         const uniqueFilename = `submissions_${uuidv4()}.xlsx`; // Generate a unique filename
-        const filePath = path.join(__dirname, uniqueFilename);
-        XLSX.writeFile(wb, filePath);
 
-        // Check if file was created successfully
-        if (!fs.existsSync(filePath)) {
-            return res.status(404).send('File not found');
-        }
+        // Set the headers for file download
+        res.setHeader('Content-Disposition', `attachment; filename="${uniqueFilename}"`);
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 
-        res.download(filePath, uniqueFilename, (err) => {
-            if (err) {
-                console.error('Error sending file:', err);
-                return res.status(500).send('Error sending file');
-            }
+        // Send the buffer directly as the response
+        res.send(buffer);
 
-            // Delete the file after download to keep the server clean
-            fs.unlink(filePath, (unlinkErr) => {
-                if (unlinkErr) {
-                    console.error('Error deleting the file:', unlinkErr);
-                }
-            });
-        });
     } catch (error) {
         console.error('Error in /download route:', error);
         res.status(500).send('Internal Server Error');
     }
 });
+
 
 // Root route
 app.get('/', (req, res) => {
