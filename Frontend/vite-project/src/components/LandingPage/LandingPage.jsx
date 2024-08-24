@@ -21,21 +21,21 @@ const LandingPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (submitted) {
       alert("You've already submitted the form!");
       return;
     }
-
+  
     try {
-      const response = await fetch('http://localhost:5001/submit', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/submit`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
       });
-
+  
       if (response.ok) {
         alert("Your submission was successful!");
         setSubmitted(true);
@@ -47,6 +47,7 @@ const LandingPage = () => {
       alert("There was an issue with your submission, please try again.");
     }
   };
+  
 
   return (
     <div className="bg-white text-gray-800">
