@@ -1,4 +1,4 @@
-import happyPeople from "../../../public/Images/happyPeople.jpg"
+import happyPeople from '../../public/Images/happyPeople.jpg'
 import React, { useState } from 'react';
 
 const LandingPage = () => {
